@@ -13,7 +13,7 @@ connectToMongoDB();
 
 
 // routes
-app.use("/api/user/auth", require("./src/api/user.js"));
+app.use("/api/user/", require("./src/api/user.js"));
 
 const PORT = process.env.PORT || 5000;
 

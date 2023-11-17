@@ -6,14 +6,21 @@ const bcrypt = require("bcryptjs");
 const User = require("../database/models/User");
 
 
-router.get("/user", (req,res)=>{
-    res.send("Hello");
+router.get("/all", async (req,res)=>{
+    try {
+        const allUsers = await User.find();
+        res.status(200).json({success: true, message: "Users fetched successfully", allUsers});
+    } catch (error) {
+        res.status(500).json({success: false, message: "Internal server error"});
+    }
 })
+
 router.post("/create", async (req, res)=>{
     // client will give all the required fields inside of body (req.body)
     try {
-        const registerForm = req.body;
 
+        const registerForm = req.body;
+        // Add current time of user creation in registration form
         registerForm.creationDate = Date.now();
 
         // hash password and update form
@@ -27,8 +34,9 @@ router.post("/create", async (req, res)=>{
     } catch (error) {
         res.status(501).json({success: false, message: "Username already exists"});
     }
-    
 })
+
+
 
 
 
